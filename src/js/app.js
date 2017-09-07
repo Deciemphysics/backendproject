@@ -11,7 +11,8 @@ const userRouter = express.Router();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ exended: true }));
 app.use(session({
-  secret: 'janky potato child'
+  secret: 'janky potato child',
+  cookie: { maxAge:300000 }  
 }))
 
 
@@ -69,20 +70,39 @@ userRouter.route('/')
   });
 ;
 
+userRouter.route('/del:id')
+  .post(function(req,res){
+    let id = req.params.id;
+    let userId;
+    for (let user of req.session.users) {
+      if (user.name == id){
+        userId = req.session.users.indexOf(user);
+      }
+    };
+    req.session.users.splice(userId, 1);
+    res.redirect('/');    
+  })
+
 userRouter.route('/:id')
   .get(function(req,res){
     let id = req.params.id;
     let userId;
-    console.log(req.session.users);
     for (user of req.session.users) {
       if (user.name == id){
         userId = req.session.users.indexOf(user);
       }
     };
-    console.log(userId);
     res.render('edit', {userId: userId, users: req.session.users});
   })
   .post(function(req,res){
+    let id = req.params.id;
+    let userId;
+    console.log(req.session.users);
+    for (let user of req.session.users) {
+      if (user.name == id){
+        userId = req.session.users.indexOf(user);
+      }
+    };
     let userName = req.body.name;
     let userEmail = req.body.email;
     let userAge = req.body.age;

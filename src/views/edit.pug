@@ -7,14 +7,14 @@ html
     title Basic Form
   body
     h1 Edit for 
-        span= user.name
+        span= users[userId].name
 
-    form(action='/'+user.name, method='POST')
-      +textInput('name', 'Name: ', user.name)
+    form(action='/'+users[userId].name, method='POST')
+      +textInput('name', 'Name: ', users[userId].name)
       div
         label(for='email') Email:
-        input(type='email', name='email', id='email', value=user.email)
-      +textInput('age', 'Age: ', user.age)
+        input(type='email', name='email', id='email', value=users[userId].email)
+      +textInput('age', 'Age: ', users[userId].age)
       div
         input(type='submit', value='Edit')
       
