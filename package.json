@@ -1,0 +1,24 @@
+{
+  "name": "backendproject",
+  "version": "1.0.0",
+  "description": "A node backend assignment",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/js/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deciemphysics/backendproject.git"
+  },
+  "author": "Ronald Marx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deciemphysics/backendproject/issues"
+  },
+  "homepage": "https://github.com/Deciemphysics/backendproject#readme",
+  "dependencies": {
+    "express": "4.15.4",
+    "pug": "^2.0.0-rc.4"
+  }
+}
