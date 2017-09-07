@@ -7,13 +7,12 @@ html
   body
     h1 Fill out this Form
 
-    form(action='/', mthod='POST')
-      +textInput('firstName', 'First Name: ')
-      +textInput('lastName', 'Last Name: ')
+    form(action='/', method='POST')
+      +textInput('name', 'Name: ', '')
       div
         label(for='email') Email:
         input(type='email', name='email', id='email')
-      +textInput('age', 'Age: ')
+      +textInput('age', 'Age: ', '')
       div
         input(type='submit', value='Submit')
       

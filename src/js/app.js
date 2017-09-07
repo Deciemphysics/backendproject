@@ -1,41 +1,100 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
 
-const app = express();
+const app = express()
 
 const port = 5000;
 const userRouter = express.Router();
 
-let users = [
-  {
-    name: 'Ron Marx',
-    email: 'deciem.physics@gmail.com',
-    age: '27'
-  }
-];
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ exended: true }));
+app.use(session({
+  secret: 'janky potato child'
+}))
+
+
 
 app.use(express.static('public'));
 app.set('views', './src/views');
 app.set('view engine', 'pug');
 
-userRouter.route('/')
+userRouter.route('/add')
   .get(function(req, res){
-    res.render('index', {users: users});
-  });
+    if (!req.session.users) {
+      req.session.users = [];
+    }
+    res.render('index', {users: req.session.users});
+  })
   .post(function(req, res){
-    let userName = req.body.firstName + ' ' + req.body.lastName;
+    console.log('Push initiated');
+    let userName = req.body.name;
     let userEmail = req.body.email;
     let userAge = req.body.age;
-  })
+    let user = {
+      name: userName,
+      email: userEmail,
+      age: userAge
+    }
+    if (!req.session.users) {
+      req.session.users = [];
+    }
+    req.session.users.push(user);
+    res.send(req.session.users);
+  });
 
-userRouter.route('/users')
+userRouter.route('/')
   .get(function(req, res){
-    res.render('users', {users: users});
+    if (!req.session.users) {
+      req.session.users = [];
+    }
+    res.render('users', {users: req.session.users});
+  })
+  .post(function(req, res){
+    console.log('Push initiated');
+    let userName = req.body.name;
+    let userEmail = req.body.email;
+    let userAge = req.body.age;
+    let user = {
+      name: userName,
+      email: userEmail,
+      age: userAge
+    }
+    if (!req.session.users) {
+      req.session.users = [];
+    }
+    req.session.users.push(user);
+    res.redirect('/');
   });
+;
 
-userRouter.route('/edit')
+userRouter.route('/:id')
   .get(function(req,res){
-    res.send('Hello Edit');
-  });
+    let id = req.params.id;
+    let userId;
+    console.log(req.session.users);
+    for (user of req.session.users) {
+      if (user.name == id){
+        userId = req.session.users.indexOf(user);
+      }
+    };
+    console.log(userId);
+    res.render('edit', {userId: userId, users: req.session.users});
+  })
+  .post(function(req,res){
+    let userName = req.body.name;
+    let userEmail = req.body.email;
+    let userAge = req.body.age;
+    let user = {
+      name: userName,
+      email: userEmail,
+      age: userAge
+    }
+    req.session.users[userId] = user;
+    res.redirect('/');    
+  })
+  ;
 
 app.use('/', userRouter);
 

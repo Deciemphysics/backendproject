@@ -9,3 +9,6 @@ html
       ul 
         for user in users
           li= user.name
+          a(href="/" + user.name) Edit
+      div
+        a(href="/add") Add User
