@@ -5,18 +5,31 @@ const app = express();
 const port = 5000;
 const userRouter = express.Router();
 
+let users = [
+  {
+    name: 'Ron Marx',
+    email: 'deciem.physics@gmail.com',
+    age: '27'
+  }
+];
+
 app.use(express.static('public'));
 app.set('views', './src/views');
 app.set('view engine', 'pug');
 
 userRouter.route('/')
   .get(function(req, res){
-    res.render('index', {list:['a','b']});
+    res.render('index', {users: users});
   });
+  .post(function(req, res){
+    let userName = req.body.firstName + ' ' + req.body.lastName;
+    let userEmail = req.body.email;
+    let userAge = req.body.age;
+  })
 
 userRouter.route('/users')
   .get(function(req, res){
-    res.render('users');
+    res.render('users', {users: users});
   });
 
 userRouter.route('/edit')
