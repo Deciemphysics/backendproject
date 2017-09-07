@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ exended: true }));
 app.use(session({
   secret: 'janky potato child',
-  cookie: { maxAge:300000 }  
+  cookie: { maxAge: 300000 }  
 }))
 
 
